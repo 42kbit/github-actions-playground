@@ -18,3 +18,9 @@ jobs:
     steps:
       - name: Run hello world!
         run: echo "Hello, world!"
+  
+  hello_world_job2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run hello world, but on a different job!
+        run: echo "Hello, another world!"
