@@ -12,6 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  # jobs are ran in parallel, while steps are ran sequentially 
   hello_world:
     # this runs on docker container within github servers?
     runs-on: ubuntu-latest
@@ -23,4 +24,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run hello world, but on a different job!
-        run: echo "Hello, another world!"
+        run: sleep 3 # make it nap for a while.
