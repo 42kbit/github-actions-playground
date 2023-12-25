@@ -1,0 +1,20 @@
+
+name: Hello world from github actions
+
+on:
+  push:
+    branches:
+      - master
+  # when mergeing 2 branches (dumb naming but ok)
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  hello_world:
+    # this runs on docker container within github servers?
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run hello world!
+        run: echo "Hello, world!"
