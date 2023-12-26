@@ -16,6 +16,7 @@ jobs:
       # this defines shell environment variable, while ${{ thing }} things
       # are inserted by github.
       INTERNAL_ENV: from internal context! (INTERNAL_ENV)
+      ENVS_JSON: ${{ toJSON(env) }}
 
     steps:
       - name: Print repo location
@@ -36,7 +37,7 @@ jobs:
       # "env" here refers to all defined envs
       # https://docs.github.com/en/enterprise-cloud@latest/actions/learn-github-actions/expressions#tojson
       - name: Print all envs
-        run: echo "${{ toJSON(env) }}"
+        run: echo "$ENVS_JSON"
        
       # secret is set by github actions
       # secrets will not (hopefully) be visible anywhere
