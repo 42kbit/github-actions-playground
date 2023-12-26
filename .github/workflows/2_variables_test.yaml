@@ -1,0 +1,39 @@
+
+name: Test variables
+
+on:
+  workflow_dispatch:
+
+env:
+  GLOBAL_ENV: from external context! (GLOBAL_ENV)
+
+jobs:
+  test_variables:
+    runs-on: ubuntu-latest
+    environment: prod # configured in github repo settings
+    
+    env:
+      # this defines shell environment variable, while ${{ thing }} things
+      # are inserted by github.
+      INTERNAL_ENV: from internal context! (INTERNAL_ENV)
+
+    steps:
+      - name: Print repo location
+        run: echo "Running action in ${{ github.repository }}"
+
+      # variable is set by shell
+      - name: Test internal env from this job
+        run: echo "Hello, $INTERNAL_ENV"
+
+      # variable is set by shell
+      - name: Test global (external) from this job
+        run: echo "Hello, $GLOBAL_ENV"
+      
+      # variable is set by github actions
+      - name: Test github env specified in "environment"
+        run: echo "Hello, ${{ env.ENV_FROM_PROD }}"
+       
+      # secret is set by github actions
+      # secrets will not (hopefully) be visible anywhere
+      - name: Test github secret
+        run: echo "My secret auth token is - ${{ secrets.SOME_AUTH_TOKEN }}"
