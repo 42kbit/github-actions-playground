@@ -29,9 +29,14 @@ jobs:
       - name: Test global (external) from this job
         run: echo "Hello, $GLOBAL_ENV"
       
-      # variable is set by github actions
-      - name: Test github env specified in "environment"
-        run: echo "Hello, ${{ env.ENV_FROM_PROD }}"
+      # variable is set by github actions in 
+      - name: Read variable from "prod" environment
+        run: echo "Hello, ${{ vars.ENV_FROM_PROD }}"
+
+      # "env" here refers to all defined envs
+      # https://docs.github.com/en/enterprise-cloud@latest/actions/learn-github-actions/expressions#tojson
+      - name: Print all envs
+        run: echo "${{ toJSON(env) }}"
        
       # secret is set by github actions
       # secrets will not (hopefully) be visible anywhere
