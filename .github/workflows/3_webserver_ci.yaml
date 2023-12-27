@@ -1,0 +1,44 @@
+
+name: CI pipeline for python webserver (src/webserver)
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - src/webserver/**
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+    # run should be used after checkout i belive.
+    working-directory: ./src/webserver
+
+jobs:
+  test_code:
+    runs-on: ubuntu-latest
+    name: Run python tests
+    steps:
+      - uses: actions/checkout@v4 # does git clone into runner
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        # shouldn't i source venv before tho?
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest tests/
+  
+  test_lint:
+    runs-on: ubuntu-latest
+    name: Run lint
+    steps:
+      - name: We'll pass this one for now.
+        run: echo "All good."
+      
+      
