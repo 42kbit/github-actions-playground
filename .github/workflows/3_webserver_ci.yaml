@@ -33,12 +33,6 @@ jobs:
 
       - name: Run tests
         run: pytest tests/
-  
-  test_lint:
-    runs-on: ubuntu-latest
-    name: Run lint
-    steps:
-      - name: We'll pass this one for now.
-        run: echo "All good."
+"
       
       
