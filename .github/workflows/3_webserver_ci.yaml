@@ -2,11 +2,22 @@
 name: CI pipeline for python webserver (src/webserver)
 
 on:
+  # run ci pipeline upon pull request
+  pull_request:
+    branches:
+      - master
+    paths:
+      - src/webserver/**
+  
+  # run ci pipeline upon push to master, in case
+  # something goes to shit, and you gotta rollback
   push:
     branches:
       - master
     paths:
       - src/webserver/**
+  
+  # or call it manually
   workflow_dispatch:
 
 defaults:
@@ -33,3 +44,6 @@ jobs:
 
       - name: Run tests
         run: pytest tests/
+  
+  # you can also run lint tests, to ensure that the project matches
+  # your desired codestyle, but well pass it for now.
