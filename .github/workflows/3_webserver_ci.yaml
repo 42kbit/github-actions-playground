@@ -25,10 +25,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+          update_environment: true # this will source venv i guess
+          cache: 'pip' # not sure if this neccessary (or what it does but whatever)
 
       - name: Install dependencies
-        # shouldn't i source venv before tho?
         run: pip install -r requirements.txt
 
       - name: Run tests
