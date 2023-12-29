@@ -37,6 +37,7 @@ jobs:
   test_code:
     runs-on: ubuntu-latest
     name: Run python tests
+    environment: prod
 
     steps:
       - uses: actions/checkout@v4 # does git clone into runner
