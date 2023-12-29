@@ -1,9 +1,7 @@
 name: Deploy webserver to AWS elastic beanstalk (manual) 
 
 on:
-  workflow_run:
-    workflows: ["CI pipeline for python webserver (src/webserver)"]
-    types: [completed] # workflow depends on another workflow
+  workflow_call:
 
 jobs:
   deploy:
