@@ -76,6 +76,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key-kd: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
       
       - name: Copy artifact to S3 bucket
         run: aws s3 cp ${{ env.ARTIFACT_NAME }} s3://${{ env.ARTIFACT_S3_PATH }}
