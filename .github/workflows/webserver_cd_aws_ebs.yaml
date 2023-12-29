@@ -1,0 +1,26 @@
+name: Deploy webserver to AWS elastic beanstalk (manual) 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to elastic beanstalk
+    environment: prod
+      
+    needs:
+      - test_code
+      - make_artifact
+      
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key-kd: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - name: Deploying to AWS EBA
+        run: echo "Deploying..."
+      
+          
