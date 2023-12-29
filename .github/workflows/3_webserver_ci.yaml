@@ -59,7 +59,7 @@ jobs:
       ARTIFACT_EXCLUDE: ./.git*
       ARTIFACT_NAME: webserver-artifact-${{ github.sha }}.zip
       # github doesn't resolve env inside env sadly (or im dumb idk)
-      ARTIFACT_S3_PATH: <
+      ARTIFACT_S3_PATH: >-
         ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/webserver-artifact-${{ github.sha }}.zip
 
     steps:
