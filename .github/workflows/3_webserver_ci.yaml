@@ -1,15 +1,6 @@
 
 name: CI pipeline for python webserver (src/webserver)
 
-env:
-  # github.sha is the commit hash
-  ARTIFACT_NAME: webserver-artifact-${{ github.sha }}.zip
-  ARTIFACT_EXCLUDE: ./.git*
-  # ${{ env.ARTIFACT_NAME }} doesnt work here for some reason
-  # so gotta copy paste that thing
-  ARTIFACT_S3_PATH: <
-    ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/webserver-artifact-${{ github.sha }}.zip
-
 on:
   # run ci pipeline upon pull request
   pull_request:
@@ -64,6 +55,11 @@ jobs:
     needs: [test_code] # may not be required i belive, if we want this
                        # to run in paralel, but i'll do it anyway to make less jobs
     environment: prod
+    env:
+      ARTIFACT_EXCLUDE: ./.git*
+      ARTIFACT_NAME: webserver-artifact-${{ github.sha }}.zip
+      ARTIFACT_S3_PATH: <
+        ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/${{ env.ARTIFACT_NAME }}
 
     steps:
       - uses: actions/checkout@v4
