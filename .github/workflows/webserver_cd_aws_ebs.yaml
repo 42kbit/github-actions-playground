@@ -1,4 +1,4 @@
-name: Deploy webserver to AWS elastic beanstalk (manual) 
+name: Deploy webserver to AWS elastic beanstalk (callable) 
 
 on:
   workflow_call:
@@ -7,11 +7,7 @@ jobs:
   deploy:
     name: Deploy to elastic beanstalk
     environment: prod
-      
-    needs:
-      - test_code
-      - make_artifact
-      
+     
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
