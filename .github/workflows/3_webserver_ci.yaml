@@ -58,8 +58,9 @@ jobs:
     env:
       ARTIFACT_EXCLUDE: ./.git*
       ARTIFACT_NAME: webserver-artifact-${{ github.sha }}.zip
+      # github doesn't resolve env inside env sadly (or im dumb idk)
       ARTIFACT_S3_PATH: <
-        ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/$ARTIFACT_NAME
+        ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/webserver-artifact-${{ github.sha }}.zip
 
     steps:
       - uses: actions/checkout@v4
@@ -75,7 +76,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       
       - name: Copy artifact to S3 bucket
-        run: aws s3 cp ${{ env.ARTIFACT_NAME }} s3://$ARTIFACT_S3_PATH
+        run: aws s3 cp "$ARTIFACT_NAME" "s3://$ARTIFACT_S3_PATH"
     
     # artifact is made, job here is done, next - CD pipeline will deploy it.
 
