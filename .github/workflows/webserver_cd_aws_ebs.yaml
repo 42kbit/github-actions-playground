@@ -27,5 +27,3 @@ jobs:
       
       - name: Deploying to AWS EBA
         run: echo "Deploying..."
-      
-          
