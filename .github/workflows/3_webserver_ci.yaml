@@ -2,20 +2,17 @@
 name: CI pipeline for python webserver (src/webserver)
 
 on:
-  # run ci pipeline upon pull request
-  pull_request:
-    branches:
-      - master
-    paths:
-      - src/webserver/**
-  
-  # run ci pipeline upon push to master, in case
-  # something goes to shit, and you gotta rollback
-  push:
-    branches:
-      - master
-    paths:
-      - src/webserver/**
+  # pull_request:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - src/webserver/**
+  # 
+  # push:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - src/webserver/**
   
   # or call it manually
   workflow_dispatch:
@@ -77,8 +74,6 @@ jobs:
       
       - name: Copy artifact to S3 bucket
         run: aws s3 cp "$ARTIFACT_NAME" "s3://$ARTIFACT_S3_PATH"
-    
-    # artifact is made, job here is done, next - CD pipeline will deploy it.
     
   # use_webserver_cd:
   #   needs: [make_artifact]
