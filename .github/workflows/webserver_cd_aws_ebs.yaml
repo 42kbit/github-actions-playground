@@ -1,0 +1,31 @@
+name: Deploy webserver to AWS elastic beanstalk (callable) 
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to elastic beanstalk
+     
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to aws account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Deploying to AWS EBA
+        run: echo "Deploying..."
+      
+          

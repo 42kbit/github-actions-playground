@@ -30,6 +30,8 @@ jobs:
   test_code:
     runs-on: ubuntu-latest
     name: Run python tests
+    environment: prod
+
     steps:
       - uses: actions/checkout@v4 # does git clone into runner
 
@@ -47,3 +49,38 @@ jobs:
   
   # you can also run lint tests, to ensure that the project matches
   # your desired codestyle, but well pass it for now.
+  
+  make_artifact:
+    runs-on: ubuntu-latest
+    needs: [test_code] # may not be required i belive, if we want this
+                       # to run in paralel, but i'll do it anyway to make less jobs
+    environment: prod
+    env:
+      ARTIFACT_EXCLUDE: ./.git*
+      ARTIFACT_NAME: webserver-artifact-${{ github.sha }}.zip
+      # github doesn't resolve env inside env sadly (or im dumb idk)
+      ARTIFACT_S3_PATH: >-
+        ${{ secrets.ARTIFACT_S3_BUCKET_NAME }}/webserver-artifact-${{ github.sha }}.zip
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip archive
+        run: zip -r ${{ env.ARTIFACT_NAME }} ./ -x ${{ env.ARTIFACT_EXCLUDE }}
+      
+      - name: Authenticate to aws account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Copy artifact to S3 bucket
+        run: aws s3 cp "$ARTIFACT_NAME" "s3://$ARTIFACT_S3_PATH"
+    
+    # artifact is made, job here is done, next - CD pipeline will deploy it.
+    
+  # use_webserver_cd:
+  #   needs: [make_artifact]
+  #   uses: ./.github/workflows/webserver_cd_aws_ebs.yaml
+  #   secrets: inherit
