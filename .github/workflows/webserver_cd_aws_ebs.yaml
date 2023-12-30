@@ -23,7 +23,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       
-      - name: Deploying to AWS EBA
-        run: echo "Deploying..."
+      - name: Create new AWS EBS Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name ${{ secrets.AWS_EBS_APP_NAME }} \
+            --source-bundle S3Bucket="${{ secrets.ARTIFACT_S3_BUCKET_NAME }}",\
+            S3Key="webserver-artifact-${{ github.sha }}.zip" \
+            --version-label "webserver-version-${{ github.sha }}"
       
-          
+      - name: Deploy newmade application version
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name ${{ secrets.AWS_EBS_APP_NAME }}-env \
+            --version-label "webserver-version-${{ github.sha }}"
+
