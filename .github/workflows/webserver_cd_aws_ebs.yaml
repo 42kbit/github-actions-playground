@@ -2,6 +2,10 @@ name: Deploy webserver to AWS elastic beanstalk (callable)
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY:
         required: true
@@ -13,8 +17,9 @@ on:
 jobs:
   deploy:
     name: Deploy to elastic beanstalk
-     
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    
     steps:
       - uses: actions/checkout@v4
 

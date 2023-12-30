@@ -83,4 +83,6 @@ jobs:
   use_webserver_cd:
     needs: [make_artifact]
     uses: ./.github/workflows/webserver_cd_aws_ebs.yaml
+    with:
+      environment: 'prod'
     secrets: inherit
